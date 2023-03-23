@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-import ipdb;
+from lib.classes.movie import Movie
+from lib.classes.viewer import Viewer
+
 
 
 if __name__ == '__main__':
-#  WRITE YOUR TEST CODE HERE ###
+    m1 = Movie(title="Avatar: The Way of Water")
+    v1 = Viewer(username="johndoe")
+    v2 = Viewer(username="janedoe")
+
+    
 
 
-
-
-
-
-
-
-
-# DO NOT REMOVE THIS
-    ipdb.set_trace()
+    import ipdb;ipdb.set_trace()
