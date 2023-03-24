@@ -24,10 +24,17 @@ class Movie:
 
     @classmethod
     def highest_rated(cls):
-        highest_rated = None
-        highest_rating = 0
-        for movie in cls.all:
-            if movie.average_rating() > highest_rating:
-                highest_rated = movie
-                highest_rating = movie.average_rating()
-        return highest_rated
+        # highest_rated = None
+        # highest_rating = 0
+        # for movie in cls.all:
+        #     if movie.average_rating() > highest_rating:
+        #         highest_rated = movie
+        #         highest_rating = movie.average_rating()
+        # return highest_rated
+
+        # highest_rated = {}
+        # for movie in cls.all:
+        #     highest_rated[movie] = movie.average_rating()
+        # return max(highest_rated, key=highest_rated.get)
+
+        return max(cls.all, key=lambda movie: movie.average_rating())
