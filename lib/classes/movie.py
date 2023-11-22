@@ -27,4 +27,5 @@ class Movie:
 
     @classmethod
     def highest_rated(cls):
-        return sorted(cls.all, key = lambda n: n.average_rating(), reverse=True ) 
+        return sorted(cls.all, key = lambda n: n.average_rating(), reverse=True).pop(0) 
+      
