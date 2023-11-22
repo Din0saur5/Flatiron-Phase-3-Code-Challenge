@@ -1,40 +1,30 @@
+from lib.classes.review import Review
+from statistics import mean
 class Movie:
     all = []
-    
     def __init__(self, title):
         self.title = title
-        self.reviews = []
-        self.reviewers = []
-        Movie.all.append(self)
-
-    def get_title(self):
+        type(self).all.append(self)
+# title property goes here!
+    @property
+    def title(self):
         return self._title
-    def set_title(self, title):
-        if isinstance(title, str) and len(title) > 0:
+    @title.setter
+    def title(self, title):
+        if isinstance(title,str) and  len(title)> 0:
             self._title = title
-        else:
-            raise Exception("Title must be a non-empty string")
-    title = property(get_title, set_title)
-
+        else: 
+            raise Exception("title must be str more than 0 char")
+    
+    def reviews(self):
+        return [review for review in Review.all if review.movie is self] 
+    
+    def reviewers(self):
+        return [review.viewer for review in self.reviews()]    
+        
     def average_rating(self):
-        if len(self.reviews) > 0:
-            return sum([review.rating for review in self.reviews]) / len(self.reviews)
-        else:
-            return 0
+        return mean([review.rating for review in self.reviews()]) if len(self.reviews()) > 0 else None
 
     @classmethod
     def highest_rated(cls):
-        # highest_rated = None
-        # highest_rating = 0
-        # for movie in cls.all:
-        #     if movie.average_rating() > highest_rating:
-        #         highest_rated = movie
-        #         highest_rating = movie.average_rating()
-        # return highest_rated
-
-        # highest_rated = {}
-        # for movie in cls.all:
-        #     highest_rated[movie] = movie.average_rating()
-        # return max(highest_rated, key=highest_rated.get)
-
-        return max(cls.all, key=lambda movie: movie.average_rating())
+        return sorted(cls.all, key = lambda n: n.average_rating(), reverse=True ) 

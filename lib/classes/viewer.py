@@ -1,37 +1,41 @@
+
+from lib.classes.review import Review
 class Viewer:
-    all = []
-
+    users = []
     def __init__(self, username):
-        # if username not in [viewer.username for viewer in Viewer.all]:
         self.username = username
-        self.reviews = []
-        self.reviewed_movies = []
-        Viewer.all.append(self)
+        type(self).users.append(username)
 
-    def get_username(self):
+# username property goes here! 
+    @property
+    def username(self):
         return self._username
-    def set_username(self, username):
-        if isinstance(username, str) and 16 > len(username) > 6:
-            for viewer in Viewer.all:
-                if viewer.username == username:
-                    raise Exception("Username already exists")
-                
-            self._username = username
-        else:
-            raise Exception("Username must be a non-empty string between 6 and 16 characters")
-    username = property(get_username, set_username)
-    
-    def reviewed_movie(self, movie):
-        return movie in self.reviewed_movies
-
-    def rate_movie(self, movie, rating):
-        from lib.classes.review import Review
-        if isinstance(rating, int) and 0 < rating <= 5:
-            if movie in self.reviewed_movies:
-                for review in self.reviews:
-                    if review.movie == movie:
-                        review.rating = rating
+    @username.setter
+    def username(self, username):
+        if isinstance(username,str) and  6<= len(username)<=16:
+            if username not in self.users:
+                self._username = username
             else:
-                Review(self, movie, rating)
+                raise Exception("username already exists")
         else:
-            raise Exception("Rating must be an integer between 1 and 5")
+            raise Exception("username must be str btn 6-16 characters")
+        
+# all reviews associated with viewer
+    def reviews(self):
+        return [review for review in Review.all if review.viewer is self]
+        
+    def reviewed_movies(self):
+        return [review.movie for review in self.reviews()]
+
+    def reviewed_movie(self, movie):
+        return True if movie in self.reviewed_movies() else False
+                       
+    
+    def rate_movie(self, movie, rating):
+        if self.reviewed_movie(movie):
+            reviewL = [review for review in self.reviews() if review.movie is movie]
+            review = reviewL.pop()
+            review.rating = rating
+        else:
+            review = Review(self,movie,rating)
+

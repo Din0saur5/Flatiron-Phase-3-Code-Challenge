@@ -1,46 +1,47 @@
-from lib.classes.viewer import Viewer
-from lib.classes.movie import Movie
+
 
 class Review:
-    
+    all = []
     def __init__(self, viewer, movie, rating):
-        self._viewer = viewer
-        self._movie = movie
+        self.viewer = viewer
+        self.movie = movie
         self.rating = rating
-        viewer.reviews.append(self)
-        viewer.reviewed_movies.append(movie)
-        movie.reviews.append(self)
-        movie.reviewers.append(viewer)
-
-    def get_viewer(self):
-        return self._viewer
-    def set_viewer(self, viewer):
-        if isinstance(viewer, Viewer):
-            self._viewer = viewer
-        else:
-            raise Exception("Viewer must be a Viewer object")
-    viewer = property(get_viewer, set_viewer)
-
-    def get_movie(self):
-        return self._movie
-    def set_movie(self, movie):
-        if isinstance(movie, Movie):
-            self._movie = movie
-        else:
-            raise Exception("Movie must be a Movie object")
-    movie = property(get_movie, set_movie)
-
-    def get_rating(self):
+        type(self).all.append(self)
+        
+# rating property goes here!
+    @property
+    def rating(self):
         return self._rating
-    def set_rating(self, rating):
-        if isinstance(rating, int) and 0 < rating <= 5:
+    @rating.setter
+    def rating(self, rating):
+        if isinstance(rating, int) and rating in range(1,6):
             self._rating = rating
-        else:
-            raise Exception("Rating must be an integer between 1 and 5")
-    rating = property(get_rating, set_rating)
+        else: 
+            raise Exception('rating must be int from 1-5')
+           
 
-    # rating property goes here!
-
-    # viewer property goes here!
-
-    # movie property goes here!
+# viewer property goes here!
+    @property
+    def viewer(self):
+        return self._viewer
+    @viewer.setter
+    def viewer(self, viewer):
+        from lib.classes.viewer import Viewer
+        if isinstance(viewer,Viewer):
+            self._viewer = viewer
+        else: 
+            raise Exception('not a viewer')
+           
+# movie property goes here!
+    @property
+    def movie(self):
+        return self._movie
+    @movie.setter
+    def movie(self, movie):
+        from lib.classes.movie import Movie
+        if isinstance(movie,Movie):
+            self._movie = movie
+        else: 
+            raise Exception('not a movie')
+           
+           
